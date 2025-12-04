@@ -2,56 +2,13 @@ name: Build and Release Static Site
 
 on:
   push:
-    branches: [main]  # Populate cache on main for tag workflows to restore
-    tags: ["v*"]      # Create release on version tags
+    branches: [main]  # Populate cache for tag workflows
+    tags: ['v*']      # Create release on version tags
 
 jobs:
   build-and-release:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      # If you want extra bundler cache (Vite/Next/etc), uncomment + adjust:
-      # - name: Restore bundler cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: |
-      #       .vite
-      #       .next/cache
-      #       node_modules/.cache
-      #     key: ${{ runner.os }}-bundler-${{ hashFiles('package-lock.json', 'vite.config.*', 'next.config.*') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-bundler-
-
-      - name: Build site
-        run: npm run build
-
-      - name: Package build artifact
-        if: startsWith(github.ref, 'refs/tags/')
-        run: |
-          mkdir -p artifacts
-          tar -czf artifacts/site-${GITHUB_REF_NAME}.tar.gz -C dist .
-
-      - name: Upload workflow artifact
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: actions/upload-artifact@v4
-        with:
-          name: site-${{ github.ref_name }}
-          path: artifacts/site-${{ github.ref_name }}.tar.gz
-
-      - name: Create GitHub Release
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v2
-        with:
-          files: artifacts/site-${{ github.ref_name }}.tar.gz
+    uses: Govcraft/.github/.github/workflows/static-site-release.yml@main
+    with:
+      node-version: '22'
+      create-release: ${{ startsWith(github.ref, 'refs/tags/') }}
+    secrets: inherit
