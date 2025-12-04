@@ -256,7 +256,7 @@ export default function Home() {
       </Section>
 
       {/* Stats Section - Reduced animation density */}
-      <Section background="blue">
+      <Section background="dark">
         <SectionHeader title="PEACC Bridges the Gap" light />
 
         <div className="grid md:grid-cols-3 gap-6 mb-12">
@@ -265,9 +265,9 @@ export default function Home() {
           <StatCard value="10" label="Hours per week max" light />
         </div>
 
-        <div className="max-w-3xl mx-auto text-center text-white/80 text-body">
+        <div className="max-w-3xl mx-auto text-center text-dark-text-muted text-body">
           <p className="mb-6">
-            <strong className="text-white">
+            <strong className="text-dark-text">
               Professional Engineering Apprenticeships of Corpus Christi
             </strong>{" "}
             places mathematically qualified high school students into six-week
@@ -277,7 +277,7 @@ export default function Home() {
             Apprentices shadow engineers. Attend real meetings. See firsthand
             what it means to build their city.
           </p>
-          <p className="text-heading text-white">
+          <p className="text-heading text-dark-text">
             The goal is simple:{" "}
             <span className="text-accent-light">for students to imagine themselves as future engineers.</span>
           </p>
